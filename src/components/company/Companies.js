@@ -1,5 +1,6 @@
 // import "./Companies.css";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import JoblyAPI from "../../api/JoblyAPI";
 import CompanyCard from "./CompanyCard";
 import Search from "../search/Search";
@@ -9,10 +10,10 @@ function Companies() {
 	const [companies, setCompanies] = useState([]);
 
 	useEffect(() => {
-		async function getCompanies() {
+		const getCompanies = async () => {
 			const companies = await JoblyAPI.getCompanies();
 			setCompanies(companies);
-		}
+		};
 		getCompanies();
 		setIsLoading(false);
 	}, []);
@@ -31,7 +32,11 @@ function Companies() {
 			{isLoading ? (
 				<h2>Loading...</h2>
 			) : (
-				companies.map((c) => <CompanyCard name={c.name} description={c.description} />)
+				companies.map((c) => (
+					<Link to={`/companies/${c.handle}`}>
+						<CompanyCard key={c.handle} name={c.name} description={c.description} />
+					</Link>
+				))
 			)}
 		</div>
 	);

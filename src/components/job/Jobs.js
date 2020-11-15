@@ -1,18 +1,19 @@
 // import "./Jobs.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import JoblyAPI from "../../api/JoblyAPI";
 import JobCard from "../job/JobCard";
 import Search from "../search/Search";
+import AuthContext from "../../context/AuthContext";
 
-function Jobs({ currentUser }) {
+function Jobs() {
+	const { currentUser } = useContext(AuthContext);
 	const [isLoading, setIsLoading] = useState(true);
 	const [jobs, setJobs] = useState([]);
-
 	useEffect(() => {
-		async function getJobs() {
+		const getJobs = async () => {
 			const jobs = await JoblyAPI.getJobs();
 			setJobs(jobs);
-		}
+		};
 		getJobs();
 		setIsLoading(false);
 	}, []);

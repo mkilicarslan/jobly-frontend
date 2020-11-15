@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useContext } from "react";
 import { Container, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
-// import "./Profile.css";
 import JoblyAPI from "../../api/JoblyAPI";
+import AuthContext from "../../context/AuthContext";
+import Alert from "../_partials/Alert";
+// import "./Profile.css";
 
-const Profile = ({ currentUser }) => {
-	// console.log(currentUser);
-	const [message, setMessage] = useState("");
+const Profile = () => {
+	const { currentUser } = useContext(AuthContext);
+	const [message, setMessage] = useState({});
 	const formInitialState = {
 		firstname: currentUser.first_name || "",
 		lastname: currentUser.last_name || "",
@@ -27,11 +28,10 @@ const Profile = ({ currentUser }) => {
 		e.preventDefault();
 
 		if (!password) {
-			setMessage("Please enter your password to update your profile");
+			setMessage({ message: "Please enter your password to update your profile", color: "danger" });
 			return;
 		}
 
-		console.log(form);
 		const user = await JoblyAPI.updateProfile({ ...form, username });
 		setForm((form) => ({
 			...form,
@@ -39,16 +39,16 @@ const Profile = ({ currentUser }) => {
 		}));
 
 		if (user) {
-			setMessage("You have successfully updated your profile");
+			setMessage({ message: "You have successfully updated your profile", color: "success" });
 		} else {
-			setMessage("An error occured");
+			setMessage({ message: "An error occured", color: "danger" });
 		}
 	};
-	console.log(form);
+
 	return (
 		<Container className="Profile">
 			<h2>Profile</h2>
-			{message}
+			{"message" in message && <Alert color={message.color} message={message.message} />}
 			<Form className="form" onSubmit={handleSubmit}>
 				<Col>
 					<FormGroup>

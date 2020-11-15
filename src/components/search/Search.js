@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Form, FormGroup, Label, Input, Button } from "reactstrap";
+import { Form, Input, Button } from "reactstrap";
 
 function Search({ handleSearch }) {
 	const [search, setSearch] = useState("");

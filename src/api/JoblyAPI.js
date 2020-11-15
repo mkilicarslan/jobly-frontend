@@ -1,10 +1,11 @@
 import axios from "axios";
+import { AUTH_TOKEN_STORAGE_ID } from "../constant/localStorage";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
 class JoblyApi {
 	static async request(endpoint, paramsOrData = {}, verb = "get") {
-		const token = localStorage.getItem("token");
+		const token = localStorage.getItem(AUTH_TOKEN_STORAGE_ID);
 		paramsOrData._token = token;
 
 		// for now, hardcode token for "testing"

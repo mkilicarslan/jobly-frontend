@@ -1,29 +1,34 @@
-import React from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import { Navbar, Nav, NavItem } from "reactstrap";
+import AuthContext from "../../context/AuthContext";
 // import "./NavBar.css";
 
-function NavBar({ token, setAuthToken }) {
+const NavBar = () => {
 	const history = useHistory();
+	const { currentUser, setCurrentUser, setAuthToken } = useContext(AuthContext);
+
 	const handleLogout = () => {
-		setAuthToken("");
+		setAuthToken(null);
+		setCurrentUser(null);
 		history.push("/login");
 	};
+
 	return (
 		<Navbar expand="md">
-			<NavLink exact to="/" className="navbar-brand">
+			<Link exact to="/" className="navbar-brand">
 				Jobly
-			</NavLink>
+			</Link>
 
-			{token ? (
+			{currentUser ? (
 				<Nav className="ml-auto" navbar>
-					<NavItem>
+					<NavItem className="mr-4">
 						<NavLink to="/companies">Companies</NavLink>
 					</NavItem>
-					<NavItem>
+					<NavItem className="mr-4">
 						<NavLink to="/jobs">Jobs</NavLink>
 					</NavItem>
-					<NavItem>
+					<NavItem className="mr-4">
 						<NavLink to="/profile">Profile</NavLink>
 					</NavItem>
 					<NavItem onClick={handleLogout}>
@@ -32,7 +37,7 @@ function NavBar({ token, setAuthToken }) {
 				</Nav>
 			) : (
 				<Nav className="ml-auto" navbar>
-					<NavItem>
+					<NavItem className="mr-4">
 						<NavLink to="/login">Login</NavLink>
 					</NavItem>
 					<NavItem>
@@ -42,30 +47,6 @@ function NavBar({ token, setAuthToken }) {
 			)}
 		</Navbar>
 	);
-}
+};
 
 export default NavBar;
-
-// function NavBar() {
-// 	return (
-// 		<div>
-// 			<Navbar expand="md">
-// 				<NavLink exact to="/" className="navbar-brand">
-// 					Jobly
-// 				</NavLink>
-
-// 				<Nav className="ml-auto" navbar>
-// 					<NavItem>
-// 						<NavLink to="/">Home</NavLink>
-// 					</NavItem>
-// 					<NavItem>
-// 						<NavLink to="/drinks">Drinks</NavLink>
-// 					</NavItem>
-// 					<NavItem>
-// 						<NavLink to="/new-item">Add New</NavLink>
-// 					</NavItem>
-// 				</Nav>
-// 			</Navbar>
-// 		</div>
-// 	);
-// }

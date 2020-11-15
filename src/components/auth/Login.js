@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Container, Col, Form, FormGroup, Label, Input, Button } from "reactstrap";
-// import "./Login.css";
 import JoblyAPI from "../../api/JoblyAPI";
+import Alert from "../_partials/Alert";
+import AuthContext from "../../context/AuthContext";
 
-const Login = ({ setAuthToken }) => {
+const Login = () => {
+	const { setAuthToken } = useContext(AuthContext);
 	const history = useHistory();
 	const [message, setMessage] = useState("");
 	const [form, setForm] = useState({});
@@ -28,8 +30,10 @@ const Login = ({ setAuthToken }) => {
 
 	return (
 		<Container className="Login">
+			{message && <Alert color="danger" message={message} />}
+
 			<h2>Sign In</h2>
-			{message}
+
 			<Form className="form" onSubmit={handleSubmit}>
 				<Col>
 					<FormGroup>
